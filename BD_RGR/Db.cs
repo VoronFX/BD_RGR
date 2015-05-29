@@ -227,10 +227,10 @@ namespace shitproject
 			return recipes;
 		}
 
-		public IEnumerable<string> GetProducts()
+		public IEnumerable<string> GetTypes()
 		{
-			using (var results = Query("SELECT * FROM Products"))
-				return results.Select(x => x.SafeGetString("Name"));
+			using (var results = Query("SELECT * FROM ResourseType"))
+				return results.Select(x => x.SafeGetString("Type"));
 		}
 
 		public IEnumerable<string> GetCuisines()

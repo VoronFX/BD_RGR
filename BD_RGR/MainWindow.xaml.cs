@@ -24,10 +24,10 @@ namespace shitproject
 		public MainWindow()
 		{
 			InitializeComponent();
-			Database = new Db("da2107", "localhost", "da2107", "hvyM9cl0");
+            Database = new Db("da2101", "localhost", "da2101", "iRzQr1Oy");
 
-			Filter.Products.ItemsSource = Database.GetProducts();
-			Filter.Cuisines.ItemsSource = Database.GetCuisines();
+			Filter.Types.ItemsSource = Database.GetTypes();
+			Filter.Entities.ItemsSource = Database.GetCuisines();
 		}
 
 
