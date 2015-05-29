@@ -40,6 +40,9 @@ namespace shitproject
 
 		}
 
+ 
+
+
 		public void Dispose()
 		{
 			myConnection.Dispose();

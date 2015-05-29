@@ -27,6 +27,7 @@ namespace shitproject
 
 			Db = new Db("da2107", "localhost", "da2107", "hvyM9cl0");
 
+
 		}
 
 		private Db Db;
