@@ -27,7 +27,7 @@ namespace shitproject
             Database = new Db("da2101", "localhost", "da2101", "iRzQr1Oy");
 
 			Filter.Types.ItemsSource = Database.GetTypes();
-			Filter.Entities.ItemsSource = Database.GetCuisines();
+			Filter.Entities.ItemsSource = Database.GetEntities();
 		}
 
 
@@ -44,12 +44,12 @@ namespace shitproject
 
 		private void Dishes_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (Dishes.SelectedItem == null)
-			{
-				Recipes.ItemsSource = null;
-				return;
-			}
-			Recipes.ItemsSource = Database.GetRecipes(((Db.Dish)Dishes.SelectedItem).idDishes, Filter.Author.Text);
+            //if (Dishes.SelectedItem == null)
+            //{
+            //    Recipes.ItemsSource = null;
+            //    return;
+            //}
+            //Recipes.ItemsSource = Database.GetRecipes(((Db.Resourse)Dishes.SelectedItem).idDishes, Filter.Author.Text);
 		}
 
 
@@ -65,11 +65,15 @@ namespace shitproject
 
 		private void Filter_OnFilterChanged(object sender, EventArgs e)
 		{
-			Dishes.ItemsSource = Database.GetDishes(
+			Dishes.ItemsSource = Database.GetResourses(
 				name: Filter.Name.Text,
 				author: Filter.Author.Text,
-				cuisines: (Filter.Cuisines.SelectedItems.Count > 0 ? Filter.Cuisines.SelectedItems : Filter.Cuisines.Items).Cast<string>(),
-				products: (Filter.Products.SelectedItems.Count > 0 ? Filter.Products.SelectedItems : Filter.Products.Items).Cast<string>());
+                entities: (Filter.Entities.SelectedItems.Count > 0 ? Filter.Entities.SelectedItems : Filter.Entities.Items).Cast<string>(),
+                type: (Filter.Types.SelectedItems.Count > 0 ? Filter.Types.SelectedItems : Filter.Types.Items).Cast<string>(),
+                from: Filter.FromDate.SelectedDate.Value,
+                to: Filter.ToDate.SelectedDate.Value
+                
+                );
 
 		}
 	}

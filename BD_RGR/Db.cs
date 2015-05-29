@@ -43,6 +43,17 @@ namespace shitproject
 			return !reader.IsDBNull(colIndex) ? reader.GetString(colIndex) : string.Empty;
 		}
 
+        public static DateTime SafeGetDateTime(this MySqlDataReader reader, string colName)
+        {
+            if (!reader.HasColumn(colName)) return default(DateTime);
+            return reader.SafeGetDateTime(reader.GetOrdinal(colName));
+        }
+
+        public static DateTime SafeGetDateTime(this MySqlDataReader reader, int colIndex)
+        {
+            return !reader.IsDBNull(colIndex) ? reader.GetDateTime(colIndex) : default(DateTime);
+        }
+
 		public static void Extract(this MySqlDataReader reader, object targetTo)
 		{
 			foreach (var property in targetTo.GetType().GetProperties())
@@ -55,6 +66,8 @@ namespace shitproject
 				propertyInfo.SetValue(targetTo, reader.SafeGetInt32(propertyInfo.Name));
 			else if (propertyInfo.PropertyType == typeof(string))
 				propertyInfo.SetValue(targetTo, reader.SafeGetString(propertyInfo.Name));
+            else if (propertyInfo.PropertyType == typeof(DateTime))
+                propertyInfo.SetValue(targetTo, reader.SafeGetDateTime(propertyInfo.Name));
 			else return false;
 			return true;
 		}
@@ -150,81 +163,81 @@ namespace shitproject
 			myConnection.Open();
 		}
 
-		public class Dish
+		public class Resourse
 		{
-			public Dish(MySqlDataReader reader)
+			public Resourse(MySqlDataReader reader)
 			{
 				reader.Extract(this);
 			}
 
-			public int idDishes { get; set; }
+			public int idPResourse { get; set; }
 			public string Name { get; set; }
-			public string Cuisine { get; set; }
+            public string Creator { get; set; }
+			public string Link { get; set; }
 			public string Type { get; set; }
 			public string Image { get; set; }
 			public string Description { get; set; }
+            public DateTime Date { get; set; }
 
 		}
 
 		public class Recipe
-		{
-			public Recipe(MySqlDataReader reader)
-			{
-				foreach (var property in this.GetType().GetProperties())
-					reader.ExtractProperty(property, this);
-			}
+        {
+            public Recipe(MySqlDataReader reader)
+            {
+                reader.Extract(this);
+            }
 
-			public int idRecipe { get; set; }
-			public string Author { get; set; }
-			public string Algorithm { get; set; }
-			public string Image { get; set; }
-			public int Dishes_idDishes { get; set; }
+            public int idRecipe { get; set; }
+            public string Author { get; set; }
+            public string Algorithm { get; set; }
+            public string Image { get; set; }
+            public int Dishes_idDishes { get; set; }
 
-			public string Products { get; set; }
+            public string Products { get; set; }
 		}
 
-		public IEnumerable<Dish> GetDishes(string name, string author, IEnumerable<string> cuisines,
-			IEnumerable<string> products)
+		public IEnumerable<Resourse> GetResourses(string name, string author, IEnumerable<string> entities,
+			IEnumerable<string> type, DateTime from, DateTime to)
 		{
-			string query = "SELECT * FROM Dishes WHERE Name LIKE \"%" + name + "%\""
+			string query = "SELECT * FROM PleasureResourse WHERE Name LIKE \"%" + name + "%\""
 
-						   + "AND Cuisine IN (\""
-						   + String.Join("\" , \"", cuisines) + "\")"
+                           + "AND Creator LIKE \"%" + author + "%\" "
+						   + "AND Type IN (\""
+						   + String.Join("\" , \"", type) + "\")"
 
-						   + "AND idDishes IN ("
-						   + "	SELECT Dishes_idDishes FROM Recipe WHERE Author LIKE \"%" + author + "%\" AND idRecipe IN ("
-						   + "		SELECT Recipe_idRecipe FROM Recipe_has_Products WHERE Products_idProducts IN ("
-						   + "				SELECT idProducts FROM Products WHERE Name IN (\"" +
-												 String.Join("\" , \"", products) + "\")"
+						   + "AND idPResourse IN ("
+                           + "	SELECT PleasureResourse_idPResourse FROM PleasureResourse_has_Entities WHERE Entities_idEntities IN ("
+						   + "		SELECT idEntities FROM Entities WHERE Name IN (\"" +
+												 String.Join("\" , \"", entities) + "\")"
 						   + "		)"
-						   + "	)"
-						   + ")";
+						   + "	)";
 
 			using (var results = Query(query))
-				return results.Select(x => new Db.Dish(x));
+				return results.Select(x => new Db.Resourse(x));
 		}
 
 		public IEnumerable<Recipe> GetRecipes(int idDishes, string author)
 		{
-			string query = "SELECT * FROM Recipe WHERE Dishes_idDishes = " + idDishes
-						   + " AND Author LIKE \"%" + author + "%\"";
-			IEnumerable<Recipe> recipes;
-			using (var results = Query(query))
-				recipes = results.Select(x => new Recipe(x)).ToList();
+            string query = "SELECT * FROM Recipe WHERE Dishes_idDishes = " + idDishes
+                           + " AND Author LIKE \"%" + author + "%\"";
+            IEnumerable<Recipe> recipes;
+            using (var results = Query(query))
+                recipes = results.Select(x => new Recipe(x)).ToList();
 
 
-			foreach (var recipe in recipes)
-			{
+            foreach (var recipe in recipes)
+            {
 
-				query =
-					"SELECT * FROM Recipe_has_Products LEFT JOIN Products ON Recipe_has_Products.Products_idProducts = Products.idProducts "
-					+ "WHERE Recipe_idRecipe = " + recipe.idRecipe;
+                query =
+                    "SELECT * FROM Recipe_has_Products LEFT JOIN Products ON Recipe_has_Products.Products_idProducts = Products.idProducts "
+                    + "WHERE Recipe_idRecipe = " + recipe.idRecipe;
 
-				using (var results = Query(query))
-					recipe.Products = String.Join(", ", results.Select(x => x.SafeGetString("Name")));
+                using (var results = Query(query))
+                    recipe.Products = String.Join(", ", results.Select(x => x.SafeGetString("Name")));
 
-			}
-			return recipes;
+            }
+            return recipes;
 		}
 
 		public IEnumerable<string> GetTypes()
@@ -233,10 +246,10 @@ namespace shitproject
 				return results.Select(x => x.SafeGetString("Type"));
 		}
 
-		public IEnumerable<string> GetCuisines()
+		public IEnumerable<string> GetEntities()
 		{
-			using (var results = Query("SELECT * FROM Cuisines"))
-				return results.Select(x => x.SafeGetString("Cuisine"));
+			using (var results = Query("SELECT * FROM Entities"))
+				return results.Select(x => x.SafeGetString("Name"));
 		}
 
 		public void Dispose()
