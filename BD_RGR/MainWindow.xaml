@@ -14,6 +14,8 @@
                             <Setter Property="VerticalAlignment" Value="Stretch" />
                             <Setter Property="ExpandDirection" Value="Left" />
                             <Setter Property="IsExpanded" Value="True" />
+                            <Setter Property="Background" Value="BurlyWood"/>
+
                             <Setter Property="HeaderTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
@@ -28,7 +30,7 @@
                             <Setter Property="ContentTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
-                                        <Grid Margin="0,0,-30,0" >
+                                        <Grid Margin="0,0,-30,0"  >
                                             <Grid.ColumnDefinitions>
 
                                                 <ColumnDefinition Width="200" MinWidth="200"/>
@@ -69,39 +71,51 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <DockPanel>
+        <DockPanel >
             <Expander Header="Input Layer" Style="{DynamicResource ExpanderStyleLeft}">
-
-                    <my:SearchControl/>
+                <my:SearchControl x:Name="Filter" Background="AntiqueWhite" FilterChanged="Filter_OnFilterChanged"/>
 
             </Expander>
 
 
-            <Expander Header="Input Layer" Style="{DynamicResource ExpanderStyleRight}" DockPanel.Dock="Right">
-
-                <ListBox SelectionChanged="ListBox_SelectionChanged">
-                    <CheckBox Content="dkjsfhskdlj" />
-
-                    <CheckBox Content="dkjsfhskdlj" />
-
-
-
-                    <CheckBox Content="dkjsfhskdlj" />
-                    <CheckBox Content="dkjsfhskdlj" />
-                    <CheckBox Content="dkjsfhskdlj" />
+            <Expander Header="Dishes" Style="{DynamicResource ExpanderStyleRight}" DockPanel.Dock="Right">
+                <ListBox x:Name="Dishes" SelectionChanged="Dishes_SelectionChanged" Background="AntiqueWhite">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Image}" Width="100" Height="100" Margin="0,0,5,0" />
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding Name, StringFormat=Name: \{0\}}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Cuisine, StringFormat=Cuisine: \{0\}}"/>
+                                    <TextBlock Text="{Binding Type, StringFormat=Type: \{0\}}"/>
+                                    <TextBlock Text="{Binding Description, StringFormat=Description: \{0\}}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </Expander>
-            <ListBox SelectionChanged="ListBox_SelectionChanged">
-                <CheckBox Content="dkjsfhskdlj" />
-
-                <CheckBox Content="dkjsfhskdlj" />
 
 
 
-                <CheckBox Content="dkjsfhskdlj" />
-                <CheckBox Content="dkjsfhskdlj" />
-                <CheckBox Content="dkjsfhskdlj" />
-            </ListBox>
+
+            <Expander Header="Recipes" Style="{DynamicResource ExpanderStyleRight}" DockPanel.Dock="Right">
+                <ListBox x:Name="Recipes" SelectionChanged="Recipes_SelectionChanged">
+                    <ListBox.ItemTemplate>
+
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Image}" Width="50" Height="50" Margin="0,0,5,0"></Image>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding Author, StringFormat=Author: \{0\}}"/>
+                                    <TextBlock Text="{Binding Products, StringFormat=Products: \{0\}}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Expander>
+            <WebBrowser x:Name="Algorithm"/>
         </DockPanel>
 
     </Grid>
