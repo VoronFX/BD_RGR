@@ -5,11 +5,34 @@
     <Grid>
         <TabControl Margin="0">
             <TabItem Header="Realize">
-                <Grid Background="#FFE5E5E5"/>
-            </TabItem>
+                <Grid>
+
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <UniformGrid Rows="1
+                                 " Grid.Row="0" >
+                        <Label Content="From:" HorizontalAlignment="Right" />
+                        <DatePicker x:Name="DateFrom" SelectedDate="1900-05-05" SelectedDateChanged="DateFrom_SelectedDateChanged" />
+                        <Label Content="To:" HorizontalAlignment="Right" />
+                        <DatePicker x:Name="DateTo" SelectedDate="2020-05-05" SelectedDateChanged="DateFrom_SelectedDateChanged"/>
+                    </UniformGrid>
+                    <DataGrid x:Name="Realize" HorizontalAlignment="Left" VerticalAlignment="Top" AutoGenerateColumns="False" Grid.Row="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding prep_name}" ClipboardContentBinding="{x:Null}" Header="prep_name"/>
+                            <DataGridTextColumn Binding="{Binding price}" ClipboardContentBinding="{x:Null}" Header="price"/>
+                            <DataGridTextColumn Binding="{Binding date_realize}" ClipboardContentBinding="{x:Null}" Header="date_realize"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+               
+    </Grid>
+
+    </TabItem>
             <TabItem Header="Preparat">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="Preparat" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <DataGrid x:Name="Preparat" HorizontalAlignment="Left" VerticalAlignment="Top" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding id_preparat}" ClipboardContentBinding="{x:Null}" Header="id_preparat"/>
                             <DataGridTextColumn Binding="{Binding prep_name}" ClipboardContentBinding="{x:Null}" Header="prep_name"/>

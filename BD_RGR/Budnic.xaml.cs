@@ -22,10 +22,19 @@ namespace shitproject
 		public Budnic()
 		{
 			InitializeComponent();
-			Database = new Db("da2105", "localhost", "da2107", "hvyM9cl0");
+			Database = new Db("da2105", "localhost", "da2105", "Stws65ls");
 			Preparat.ItemsSource = Database.GetPreparats();
+			Realize.ItemsSource = Database.GetRealizes(DateFrom.SelectedDate.Value, DateTo.SelectedDate.Value);
 		}
 
 		public Db Database { get; set; }
+
+		private void DateFrom_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (Database != null)
+			if (DateFrom != null)
+				if (DateTo != null)
+					Realize.ItemsSource = Database.GetRealizes(DateFrom.SelectedDate.Value, DateTo.SelectedDate.Value);
+		}
 	}
 }

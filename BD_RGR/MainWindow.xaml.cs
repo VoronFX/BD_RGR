@@ -25,18 +25,18 @@ namespace shitproject
 		{
 			new Budnic().Show();
 			Close();
-			InitializeComponent();
-			Database = new Db("da2107", "localhost", "da2107", "hvyM9cl0");
+			//InitializeComponent();
+			//Database = new Db("da2107", "localhost", "da2107", "hvyM9cl0");
 
-			Filter.Products.ItemsSource = Database.GetProducts();
-			foreach (var item in Filter.Products.Items)
-			Filter.Products.SelectedItems.Add(item);
+			//Filter.Products.ItemsSource = Database.GetProducts();
+			//foreach (var item in Filter.Products.Items)
+			//Filter.Products.SelectedItems.Add(item);
 
-			Filter.Cuisines.ItemsSource = Database.GetCuisines();
-			foreach (var item in Filter.Cuisines.Items)
-				Filter.Cuisines.SelectedItems.Add(item);
+			//Filter.Cuisines.ItemsSource = Database.GetCuisines();
+			//foreach (var item in Filter.Cuisines.Items)
+			//	Filter.Cuisines.SelectedItems.Add(item);
 
-			Filter_OnFilterChanged(this, EventArgs.Empty);
+			//Filter_OnFilterChanged(this, EventArgs.Empty);
 		}
 
 
@@ -53,32 +53,32 @@ namespace shitproject
 
 		private void Dishes_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (Dishes.SelectedItem == null)
-			{
-				Recipes.ItemsSource = null;
-				return;
-			}
-			Recipes.ItemsSource = Database.GetRecipes(((Db.Dish)Dishes.SelectedItem).idDishes, Filter.Author.Text);
+			//if (Dishes.SelectedItem == null)
+			//{
+			//	Recipes.ItemsSource = null;
+			//	return;
+			//}
+			//Recipes.ItemsSource = Database.GetRecipes(((Db.Dish)Dishes.SelectedItem).idDishes, Filter.Author.Text);
 		}
 
 
 		private void Recipes_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (Recipes.SelectedItem == null)
-			{
-				Algorithm.Navigate("about:blanc");
-				return;
-			}
-			Algorithm.NavigateToString("<meta content=\"text/html; charset=UTF-8\" http-equiv=\"content-type\">" + ((Db.Recipe)Recipes.SelectedItem).Algorithm);
+			//if (Recipes.SelectedItem == null)
+			//{
+			//	Algorithm.Navigate("about:blanc");
+			//	return;
+			//}
+			//Algorithm.NavigateToString("<meta content=\"text/html; charset=UTF-8\" http-equiv=\"content-type\">" + ((Db.Recipe)Recipes.SelectedItem).Algorithm);
 		}
 
 		private void Filter_OnFilterChanged(object sender, EventArgs e)
 		{
-			Dishes.ItemsSource = Database.GetDishes(
-				name: Filter.Name.Text,
-				author: Filter.Author.Text,
-				cuisines: (Filter.Cuisines.SelectedItems.Count > 0 ? Filter.Cuisines.SelectedItems : Filter.Cuisines.Items).Cast<string>(),
-				products: (Filter.Products.SelectedItems.Count > 0 ? Filter.Products.SelectedItems : Filter.Products.Items).Cast<string>());
+			//Dishes.ItemsSource = Database.GetDishes(
+			//	name: Filter.Name.Text,
+			//	author: Filter.Author.Text,
+			//	cuisines: (Filter.Cuisines.SelectedItems.Count > 0 ? Filter.Cuisines.SelectedItems : Filter.Cuisines.Items).Cast<string>(),
+			//	products: (Filter.Products.SelectedItems.Count > 0 ? Filter.Products.SelectedItems : Filter.Products.Items).Cast<string>());
 
 		}
 	}
