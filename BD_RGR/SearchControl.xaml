@@ -128,8 +128,8 @@
         <TextBox x:Name="Name" Height="24" Margin="70,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="TextBox_TextChanged" />
 
         <TextBox x:Name="Author" Height="24" Margin="70,50,10,0" TextWrapping="Wrap" VerticalAlignment="Top" TextChanged="TextBox_TextChanged"/>
-        <Label Content="Название" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Height="26" Width="63"/>
-        <Label Content="Автор" HorizontalAlignment="Left" Margin="5,47,0,0" VerticalAlignment="Top" Height="26" Width="61"/>
+        <Label Content="Name" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top" Height="26" Width="63"/>
+        <Label Content="Author" HorizontalAlignment="Left" Margin="5,47,0,0" VerticalAlignment="Top" Height="26" Width="61"/>
         <Image HorizontalAlignment="Left" Height="76" Margin="544,18,-320,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="0.007,0.551"/>
         <Grid Margin="0,89,0,0">
             <Grid.RowDefinitions>
@@ -140,11 +140,11 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Label Content="Кухни" Grid.Column="1" HorizontalAlignment="Center"/>
+            <Label Content="Cuisines" Grid.Column="1" HorizontalAlignment="Center"/>
             <ListBox x:Name="Cuisines" Margin="5,10,10,10" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Database.Cuisines, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SearchControl}}}" 
                      Style="{StaticResource ListBoxStyle}"
                      />
-            <Label Content="Продукты" HorizontalAlignment="Center" />
+            <Label Content="Products" HorizontalAlignment="Center" />
             <ListBox x:Name="Products" Margin="10,10,5,10" Grid.Row="1" ItemsSource="{Binding Database.Products, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SearchControl}}}" Style="{StaticResource ListBoxStyle}">             
                
                 
