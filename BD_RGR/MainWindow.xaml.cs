@@ -23,6 +23,8 @@ namespace shitproject
 	{
 		public MainWindow()
 		{
+			new Budnic().Show();
+			Close();
 			InitializeComponent();
 			Database = new Db("da2107", "localhost", "da2107", "hvyM9cl0");
 

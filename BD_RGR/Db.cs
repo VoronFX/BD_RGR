@@ -150,6 +150,35 @@ namespace shitproject
 			myConnection.Open();
 		}
 
+
+		public class Realize
+		{
+			public Realize(MySqlDataReader reader)
+			{
+				reader.Extract(this);
+			}
+			public int id_preparat { get; set; }
+			public string prep_name { get; set; }
+			public string proizvod { get; set; }
+			public string izmerenia { get; set; }
+			public string prep_country { get; set; }
+			public int col { get; set; }
+		}
+
+		public class Preparat
+		{
+			public Preparat(MySqlDataReader reader)
+			{
+				reader.Extract(this);
+			}
+			public int id_preparat { get; set; }
+			public string prep_name { get; set; }
+			public string proizvod { get; set; }
+			public string izmerenia { get; set; }
+			public string prep_country { get; set; }
+			public int col { get; set; }
+		}
+
 		public class Dish
 		{
 			public Dish(MySqlDataReader reader)
@@ -181,6 +210,12 @@ namespace shitproject
 
 			public string Products { get; set; }
 		}
+
+		public IEnumerable<Preparat> GetPreparats()
+		{
+			using (var results = Query("SELECT prep_name, proizvod, izmemrenie, prep_country FROM preparat"))
+				return results.Select(x => new Preparat(x));
+		} 
 
 		public IEnumerable<Dish> GetDishes(string name, string author, IEnumerable<string> cuisines,
 			IEnumerable<string> products)

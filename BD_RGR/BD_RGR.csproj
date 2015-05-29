@@ -56,10 +56,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Budnic.xaml.cs">
+      <DependentUpon>Budnic.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DependencyPropertyExtension.cs" />
     <Compile Include="SearchControl.xaml.cs">
       <DependentUpon>SearchControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="Budnic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ExpanderArrowReversed.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
