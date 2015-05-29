@@ -6,6 +6,120 @@
              xmlns:local="clr-namespace:shitproject" x:Class="shitproject.SearchControl" 
              mc:Ignorable="d" 
              d:DesignHeight="230.827" d:DesignWidth="300              ">
+    <UserControl.Resources>
+        <Style x:Key="ListBoxItemStyle1"
+       TargetType="{x:Type ListBoxItem}">
+            <Setter Property="SnapsToDevicePixels"
+          Value="True" />
+            <Setter Property="Padding"
+          Value="4,1" />
+            <Setter Property="HorizontalContentAlignment"
+          Value="{Binding HorizontalContentAlignment,
+                          RelativeSource={RelativeSource FindAncestor,
+                                                         AncestorLevel=1,
+                                                         AncestorType={x:Type ItemsControl}}}" />
+            <Setter Property="VerticalContentAlignment"
+          Value="{Binding VerticalContentAlignment,
+                          RelativeSource={RelativeSource FindAncestor,
+                                                         AncestorLevel=1,
+                                                         AncestorType={x:Type ItemsControl}}}" />
+            <Setter Property="Background"
+          Value="Transparent" />
+            <Setter Property="BorderBrush"
+          Value="Transparent" />
+            <Setter Property="BorderThickness"
+          Value="1" />
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle Margin="2"
+                         SnapsToDevicePixels="True"
+                         Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                         StrokeDashArray="1 2"
+                         StrokeThickness="1" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Padding="{TemplateBinding Padding}"
+                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver"
+                         Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="Bd"
+                    Property="Background"
+                    Value="#1F26A0DA" />
+                                <Setter TargetName="Bd"
+                    Property="BorderBrush"
+                    Value="#A826A0DA" />
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Selector.IsSelectionActive"
+                         Value="False" />
+                                    <Condition Property="IsSelected"
+                         Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="Bd"
+                    Property="Background"
+                    Value="#3D26A0DA" />
+                                <Setter TargetName="Bd"
+                    Property="BorderBrush"
+                    Value="#FF26A0DA" />
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Selector.IsSelectionActive"
+                         Value="True" />
+                                    <Condition Property="IsSelected"
+                         Value="True" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="Bd"
+                    Property="Background"
+                    Value="#3D26A0DA" />
+                                <Setter TargetName="Bd"
+                    Property="BorderBrush"
+                    Value="#FF26A0DA" />
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled"
+                   Value="False">
+                                <Setter TargetName="Bd"
+                    Property="TextElement.Foreground"
+                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ListBoxStyle" TargetType="ListBox">
+            <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemStyle1}" />
+            <Setter Property="SelectionMode" Value="Multiple"/>
+            <EventSetter Event="SelectionChanged" Handler="ListBox_SelectionChanged"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -27,9 +141,14 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Content="Кухни" Grid.Column="1" HorizontalAlignment="Center"/>
-            <ListBox x:Name="Cuisines" Margin="5,10,10,10" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Database.Cuisines, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SearchControl}}}" SelectionChanged="ListBox_SelectionChanged" SelectionMode="Multiple"/>
+            <ListBox x:Name="Cuisines" Margin="5,10,10,10" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding Database.Cuisines, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SearchControl}}}" 
+                     Style="{StaticResource ListBoxStyle}"
+                     />
             <Label Content="Продукты" HorizontalAlignment="Center" />
-            <ListBox x:Name="Products" Margin="10,10,5,10" Grid.Row="1" ItemsSource="{Binding Database.Products, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SearchControl}}}" SelectionMode="Multiple" SelectionChanged="ListBox_SelectionChanged"/>
+            <ListBox x:Name="Products" Margin="10,10,5,10" Grid.Row="1" ItemsSource="{Binding Database.Products, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SearchControl}}}" Style="{StaticResource ListBoxStyle}">             
+               
+                
+            </ListBox>
         </Grid>
     </Grid>
 </UserControl>

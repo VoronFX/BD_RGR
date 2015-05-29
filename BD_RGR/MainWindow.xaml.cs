@@ -27,7 +27,14 @@ namespace shitproject
 			Database = new Db("da2107", "localhost", "da2107", "hvyM9cl0");
 
 			Filter.Products.ItemsSource = Database.GetProducts();
+			foreach (var item in Filter.Products.Items)
+			Filter.Products.SelectedItems.Add(item);
+
 			Filter.Cuisines.ItemsSource = Database.GetCuisines();
+			foreach (var item in Filter.Cuisines.Items)
+				Filter.Cuisines.SelectedItems.Add(item);
+
+			Filter_OnFilterChanged(this, EventArgs.Empty);
 		}
 
 

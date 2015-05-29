@@ -30,9 +30,9 @@ namespace shitproject
 		private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 
-			((ListBox) sender).ItemsSource = ((IEnumerable<string>) ((ListBox) sender).ItemsSource).OrderBy(
+			((ListBox)sender).ItemsSource = ((IEnumerable<string>)((ListBox)sender).ItemsSource).OrderBy(
 				x =>
-					((ListBox) sender).SelectedItems.Contains(x) ? 0 : 1);
+					((ListBox)sender).SelectedItems.Contains(x) ? 0 : 1);
 
 			var handler = FilterChanged;
 			if (handler != null) handler(this, EventArgs.Empty);
