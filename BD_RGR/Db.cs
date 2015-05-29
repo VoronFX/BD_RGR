@@ -170,8 +170,7 @@ namespace shitproject
 		{
 			public Recipe(MySqlDataReader reader)
 			{
-				foreach (var property in this.GetType().GetProperties())
-					reader.ExtractProperty(property, this);
+				reader.Extract(this);
 			}
 
 			public int idRecipe { get; set; }
@@ -201,7 +200,7 @@ namespace shitproject
 						   + ")";
 
 			using (var results = Query(query))
-				return results.Select(x => new Db.Dish(x));
+				return results.Select(x => new Dish(x));
 		}
 
 		public IEnumerable<Recipe> GetRecipes(int idDishes, string author)
