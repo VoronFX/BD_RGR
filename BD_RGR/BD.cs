@@ -19,13 +19,13 @@ namespace shitproject
 		/// <param name="password">пароль пользователя БД MySQL</param>
 		public Db(string database, string host, string user, string password)
 		{
-			string CommandText = "Наш SQL скрипт";
+			
 			myConnection = new MySqlConnection(String.Format("Database={0};Data Source={1};User Id={2};Password={3}", database, host, user, password));
-		
 
-			//myConnection.Open();
-			//MySqlCommand myCommand = new MySqlCommand("SELECT * FROM Meals", myConnection);
-			//MySqlDataReader myDataReader = myCommand.ExecuteReader();
+
+            //myConnection.Open();
+            //MySqlCommand myCommand = new MySqlCommand("SELECT * FROM Meals", myConnection);
+            //MySqlDataReader myDataReader = myCommand.ExecuteReader();
 
 			//while (myDataReader.Read())
 			//{
