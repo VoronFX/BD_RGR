@@ -27,9 +27,10 @@
                             <Setter Property="ContentTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
-                                        <Grid Margin="0,0,-30,0">
+                                        <Grid Margin="0,0,-30,0" >
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="200"/>
+
+                                                <ColumnDefinition Width="200" MinWidth="200"/>
                                                 <ColumnDefinition Width="30" />
                                             </Grid.ColumnDefinitions>
 
@@ -51,7 +52,7 @@
                                     <DataTemplate>
                                         <Grid Margin="-30,0,0,0" FlowDirection="RightToLeft">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="200"/>
+                                                <ColumnDefinition Width="200" MinWidth="200"/>
                                                 <ColumnDefinition Width="30" />
                                             </Grid.ColumnDefinitions>
                                             <ContentControl  Content="{Binding}" FlowDirection="LeftToRight" />
