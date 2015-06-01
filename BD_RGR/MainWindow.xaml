@@ -14,7 +14,7 @@
                             <Setter Property="VerticalAlignment" Value="Stretch" />
                             <Setter Property="ExpandDirection" Value="Left" />
                             <Setter Property="IsExpanded" Value="True" />
-                            <Setter Property="Background" Value="BurlyWood"/>
+                            <Setter Property="Background" Value="CadetBlue"/>
 
                             <Setter Property="HeaderTemplate">
                                 <Setter.Value>
@@ -72,14 +72,14 @@
     </Window.Resources>
     <Grid>
         <DockPanel >
-            <Expander Header="Input Layer" Style="{DynamicResource ExpanderStyleLeft}">
-                <my:SearchControl x:Name="Filter" Background="AntiqueWhite" FilterChanged="Filter_OnFilterChanged"/>
+            <Expander Header="Input Layer" Style="{DynamicResource ExpanderStyleRight}" DockPanel.Dock="Right">
+                <my:SearchControl x:Name="Filter" Background="CornflowerBlue" FilterChanged="Filter_OnFilterChanged"/>
 
             </Expander>
 
 
-            <Expander Header="Dishes" Style="{DynamicResource ExpanderStyleRight}" DockPanel.Dock="Right">
-                <ListBox x:Name="Dishes" SelectionChanged="Dishes_SelectionChanged" Background="AntiqueWhite">
+            <Expander Header="Dishes" Style="{DynamicResource ExpanderStyleLeft}" DockPanel.Dock="Left">
+                <ListBox x:Name="Dishes" SelectionChanged="Dishes_SelectionChanged" Background="LightYellow">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -99,7 +99,7 @@
 
 
 
-            <Expander Header="Recipes" Style="{DynamicResource ExpanderStyleRight}" DockPanel.Dock="Right">
+            <Expander Header="Recipes" Style="{DynamicResource ExpanderStyleLeft}" DockPanel.Dock="Left">
                 <ListBox x:Name="Recipes" SelectionChanged="Recipes_SelectionChanged">
                     <ListBox.ItemTemplate>
 
