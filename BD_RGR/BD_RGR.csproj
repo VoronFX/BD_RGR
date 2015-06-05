@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -50,6 +51,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.Toolkit">
+      <HintPath>..\..\..\..\..\Projects\AVR\LightOffSimulation\packages\Extended.Wpf.Toolkit.2.4\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -59,7 +63,20 @@
     <Compile Include="Budnic.xaml.cs">
       <DependentUpon>Budnic.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomGridView.cs" />
     <Compile Include="DependencyPropertyExtension.cs" />
+    <Compile Include="IncomeView.xaml.cs">
+      <DependentUpon>IncomeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PreparatsView.xaml.cs">
+      <DependentUpon>PreparatsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProvidersView.xaml.cs">
+      <DependentUpon>ProvidersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RealizeView.xaml.cs">
+      <DependentUpon>RealizeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SearchControl.xaml.cs">
       <DependentUpon>SearchControl.xaml</DependentUpon>
     </Compile>
@@ -70,6 +87,14 @@
     <Page Include="ExpanderArrowReversed.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GridViewDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="IncomeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -84,6 +109,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PreparatsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProvidersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RealizeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SearchControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

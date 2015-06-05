@@ -1,48 +1,21 @@
 ﻿<Window x:Class="shitproject.Budnic"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shitproject="clr-namespace:shitproject"
         Title="Budnic" Height="300" Width="300">
     <Grid>
         <TabControl Margin="0">
             <TabItem Header="Realize">
-                <Grid>
-
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <UniformGrid Rows="1
-                                 " Grid.Row="0" >
-                        <Label Content="From:" HorizontalAlignment="Right" />
-                        <DatePicker x:Name="DateFrom" SelectedDate="1900-05-05" SelectedDateChanged="DateFrom_SelectedDateChanged" />
-                        <Label Content="To:" HorizontalAlignment="Right" />
-                        <DatePicker x:Name="DateTo" SelectedDate="2020-05-05" SelectedDateChanged="DateFrom_SelectedDateChanged"/>
-                    </UniformGrid>
-                    <DataGrid x:Name="Realize" HorizontalAlignment="Left" VerticalAlignment="Top" AutoGenerateColumns="False" Grid.Row="1">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding prep_name}" ClipboardContentBinding="{x:Null}" Header="prep_name"/>
-                            <DataGridTextColumn Binding="{Binding price}" ClipboardContentBinding="{x:Null}" Header="price"/>
-                            <DataGridTextColumn Binding="{Binding date_realize}" ClipboardContentBinding="{x:Null}" Header="date_realize"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-               
-    </Grid>
-
-    </TabItem>
+                <shitproject:RealizeView Margin="5" Width="Auto" Height="Auto" Database="{Binding Database, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type shitproject:Budnic}}}" />
+            </TabItem>
             <TabItem Header="Preparat">
-                <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="Preparat" HorizontalAlignment="Left" VerticalAlignment="Top" AutoGenerateColumns="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding id_preparat}" ClipboardContentBinding="{x:Null}" Header="id_preparat"/>
-                            <DataGridTextColumn Binding="{Binding prep_name}" ClipboardContentBinding="{x:Null}" Header="prep_name"/>
-                            <DataGridTextColumn Binding="{Binding proizvod}" ClipboardContentBinding="{x:Null}" Header="proizvod"/>
-                            <DataGridTextColumn Binding="{Binding izmerenia}" ClipboardContentBinding="{x:Null}" Header="izmerenia"/>
-                            <DataGridTextColumn Binding="{Binding prep_country}" ClipboardContentBinding="{x:Null}" Header="prep_country"/>
-                            <DataGridTextColumn Binding="{Binding col}" ClipboardContentBinding="{x:Null}" Header="col"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
+                <shitproject:PreparatsView Margin="5" Width="Auto" Height="Auto" Database="{Binding Database, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type shitproject:Budnic}}}" />
+            </TabItem>
+            <TabItem Header="Income">
+                <shitproject:IncomeView Margin="5" Width="Auto" Height="Auto" Database="{Binding Database, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type shitproject:Budnic}}}" />
+            </TabItem>
+            <TabItem Header="Provider">
+                <shitproject:ProvidersView Margin="5" Width="Auto" Height="Auto" Database="{Binding Database, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type shitproject:Budnic}}}" />
             </TabItem>
         </TabControl>
 

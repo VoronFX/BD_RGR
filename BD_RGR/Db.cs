@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -10,6 +11,8 @@ using MySql.Data.MySqlClient;
 
 namespace shitproject
 {
+	#region ext
+		
 	public static class DbExtensionMethods
 	{
 		public static bool HasColumn(this MySqlDataReader dr, string columnName)
@@ -55,7 +58,7 @@ namespace shitproject
 		{
 			return !reader.IsDBNull(colIndex) ? reader.GetDateTime(colIndex) : default(DateTime);
 		}
-	
+
 
 		public static Double SafeGetDouble(this MySqlDataReader reader, string colName)
 		{
@@ -87,7 +90,8 @@ namespace shitproject
 			return true;
 		}
 	}
-
+ 
+	#endregion
 	public class Db : DependencyNotifyPropertyChanged, IDisposable
 	{
 		#region QueryHelper
@@ -179,45 +183,249 @@ namespace shitproject
 		}
 
 
-		public class Realize
+		public class RealizeCollection : ObservableCollection<Realize>
 		{
+			public RealizeCollection(List<Realize> list)
+				: base(list)
+			{
+			}
+
+			protected override void SetItem(int index, Realize item)
+			{
+				base.SetItem(index, item);
+			}
+
+			protected override void InsertItem(int index, Realize item)
+			{
+				base.InsertItem(index, item);
+
+			}
+
+			//protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+			//{
+			//	base.OnCollectionChanged(e);
+			//	e.Action == 
+			//}
+		}
+		public interface ISubmitRemove
+		{
+			void Submit(Db database);
+			void Remove(Db database);
+		}
+
+
+		[Magic]
+		public class Realize : NotifyPropertyChanged, ISubmitRemove
+		{
+			private bool Existing = false;
+			public Realize()
+			{
+				//	throw new NotImplementedException();
+			}
 			public Realize(MySqlDataReader reader)
 			{
 				reader.Extract(this);
+				Existing = true;
 			}
+
+			public string id_realize { get; set; }
 			public string prep_name { get; set; }
 			public double price { get; set; }
-			public string date_realize { get; set; }
-		
+			public DateTime date_realize { get; set; }
+
+			public void Submit(Db database)
+			{
+				//myCommand = new MySqlCommand(query, connection);
+
+				//database.myConnection.
+				Existing = true;
+			}
+
+			public void Remove(Db database)
+			{
+				if (!Existing) return;
+
+				//remove request
+
+				Existing = false;
+			}
 		}
 
-		public class Preparat
+		public class Preparat : ISubmitRemove
 		{
+			private bool Existing = false;
+
+			public Preparat()
+			{
+			}
+
 			public Preparat(MySqlDataReader reader)
 			{
 				reader.Extract(this);
+				Existing = true;
 			}
 			public int id_preparat { get; set; }
 			public string prep_name { get; set; }
 			public string proizvod { get; set; }
-			public string izmerenia { get; set; }
+			public string izmerenie { get; set; }
 			public string prep_country { get; set; }
 			public int col { get; set; }
+
+			public void Submit(Db database)
+			{
+				//myCommand = new MySqlCommand(query, connection);
+
+				//database.myConnection.
+				Existing = true;
+			}
+
+			public void Remove(Db database)
+			{
+				if (!Existing) return;
+
+				//remove request
+
+				Existing = false;
+			}
 		}
 
+
+		public class Provider : ISubmitRemove
+		{
+			private bool Existing = false;
+
+			public Provider()
+			{
+			}
+
+			public Provider(MySqlDataReader reader)
+			{
+				reader.Extract(this);
+				Existing = true;
+			}
+			public int id_provider { get; set; }
+			public string provider_name { get; set; }
+			public string country { get; set; }
+			public string phone { get; set; }
+			public string adress { get; set; }
+
+			public void Submit(Db database)
+			{
+				//myCommand = new MySqlCommand(query, connection);
+
+				//database.myConnection.
+				Existing = true;
+			}
+
+			public void Remove(Db database)
+			{
+				if (!Existing) return;
+
+				//remove request
+
+				Existing = false;
+			}
+		}
+
+		public class Income : ISubmitRemove
+		{
+			private bool Existing = false;
+
+			public Income()
+			{
+			}
+
+			public Income(MySqlDataReader reader)
+			{
+				reader.Extract(this);
+				Existing = true;
+			}
+			public int id_income { get; set; }
+			public int id_preparat { get; set; }
+
+			public int id_provider { get; set; }
+			public string prep_name { get; set; }
+
+			public string provider_name { get; set; }
+
+
+			public DateTime date_inc { get; set; }
+			public Double incum_price { get; set; }
+			public void Submit(Db database)
+			{
+				//myCommand = new MySqlCommand(query, connection);
+
+				//database.myConnection.
+				Existing = true;
+			}
+
+			public void Remove(Db database)
+			{
+				if (!Existing) return;
+
+				//remove request
+
+				Existing = false;
+			}
+		}
+
+		public IEnumerable GetIncome(DateTime from, DateTime to)
+		{
+			using (var results = Query("SELECT * FROM income "
+			+ "INNER JOIN preparat on income.id_preparat=preparat.id_preparat "
+			+ "INNER JOIN provider on income.id_provider=provider.id_provider  WHERE (date_inc BETWEEN " + String.Format("\"{0:yyyy/MM/dd}\" AND \"{1:yyyy/MM/dd}\"", from, to) + " )"))
+
+				//+ " WHERE ("
+				//+ " provider_name LIKE \"%" + name + "%\""
+				//	))
+				return new ObservableCollection<Income>(results.Select(x => new Income(x)).ToList());
+		}
+
+		public IEnumerable GetProviders(string name)
+		{
+			using (var results = Query("SELECT * FROM provider WHERE"
+			+ " provider_name LIKE \"%" + name + "%\""
+				))
+				return new ObservableCollection<Provider>(results.Select(x => new Provider(x)).ToList());
+		}
 
 		public IEnumerable GetRealizes(DateTime from, DateTime to)
 		{
 			using (var results = Query("SELECT prep_name, price, date_realize FROM realize "
 				+ "INNER JOIN preparat on realize.id_preparat=preparat.id_preparat WHERE (date_realize BETWEEN " + String.Format("\"{0:yyyy/MM/dd}\" AND \"{1:yyyy/MM/dd}\"", from, to) + " )"))
-				return results.Select(x => new Realize(x));
+				return new RealizeCollection(results.Select(x => new Realize(x)).ToList());
+		}
+
+		public IEnumerable GetRealizes(string name, decimal priceMin, decimal priceMax, DateTime dateFrom, DateTime dateTo)
+		{
+			using (var results = Query("SELECT realize.id_preparat, prep_name, price, date_realize FROM realize "
+			+ "INNER JOIN preparat on realize.id_preparat=preparat.id_preparat WHERE ("
+			+ "date_realize BETWEEN " + String.Format("\"{0:yyyy/MM/dd}\" AND \"{1:yyyy/MM/dd}\" AND ", dateFrom, dateTo)
+			+ "prep_name LIKE \"%" + name + "%\" AND "
+			+ "price BETWEEN " + priceMin + " AND " + priceMax
+			+ " )"))
+				return new RealizeCollection(results.Select(x => new Realize(x)).ToList());
+		}
+
+		public IEnumerable<Preparat> GetPreparats(string prep_name, string proizvod, string izmerenie, string prep_country, int colfrom, int colto)
+		{
+			using (var results = Query("SELECT prep_name, proizvod, izmerenie, prep_country, col FROM preparat "
+									   + " WHERE ("
+									   + "prep_name LIKE \"%" + prep_name + "%\" AND "
+									   + "proizvod LIKE \"%" + proizvod + "%\" AND "
+									   + "izmerenie LIKE \"%" + izmerenie + "%\" AND "
+									   + "prep_country LIKE \"%" + prep_country + "%\" AND "
+									   + "col BETWEEN " + colfrom + " AND " + colto
+									   + " )"))
+				return new ObservableCollection<Preparat>(results.Select(x => new Preparat(x)).ToList());
 		}
 
 		public IEnumerable<Preparat> GetPreparats()
 		{
 			using (var results = Query("SELECT prep_name, proizvod, izmemrenie, prep_country FROM preparat"))
-				return results.Select(x => new Preparat(x));
+				return new ObservableCollection<Preparat>(results.Select(x => new Preparat(x)).ToList());
 		}
+
 
 		#region old
 		//public class Dish
@@ -308,12 +516,10 @@ namespace shitproject
 		//		return results.Select(x => x.SafeGetString("Cuisine"));
 		//} 
 		#endregion
-
 		public void Dispose()
 		{
 			myConnection.Dispose();
 		}
 
-		
 	}
 }

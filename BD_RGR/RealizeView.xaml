@@ -1,0 +1,65 @@
+﻿<shitproject:CustomGridView xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"  x:Class="shitproject.RealizeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:shitproject="clr-namespace:shitproject"
+             mc:Ignorable="d" Height="287" Width="386">
+    <UserControl.Resources>
+        <Style TargetType="DataGrid">
+            <Setter Property="CanUserAddRows" Value="{Binding AllowEditing, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type shitproject:RealizeView}}}" />
+            <Setter Property="CanUserDeleteRows" Value="False" />
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="SelectionMode" Value="Single" />
+            <EventSetter Event="PreviewKeyDown" Handler="Preparat_PreviewKeyDown" />
+        </Style>
+    </UserControl.Resources>
+    <DockPanel>
+        <Grid  DockPanel.Dock="Top" Margin="0,0,0,5" >
+            <Grid.Resources>
+                <Style TargetType="TextBox">
+                    <EventSetter Event="TextChanged" Handler="TextChanged" />
+                </Style>
+                <Style TargetType="xctk:DecimalUpDown">
+                    <EventSetter Event="ValueChanged" Handler="EventSetter_OnHandler" />
+                </Style>
+                <Style TargetType="DatePicker">
+                    <EventSetter Event="SelectedDateChanged" Handler="SelectedDateChanged" />
+                </Style>
+                <Style TargetType="Label">
+                    <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="5" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Name:" HorizontalAlignment="Left" />
+            <TextBox x:Name="Name" Grid.Row="2" Grid.Column="0" />
+            <Label Content="PriceMin:" Grid.Row="0" Grid.Column="1" />
+            <xctk:DecimalUpDown x:Name="PriceMin" Grid.Row="0" Grid.Column="2" Value="0" />
+            <Label Content="From:" Grid.Row="0" Grid.Column="3" />
+            <DatePicker x:Name="DateFrom" SelectedDate="1900-05-05" Grid.Row="0" Grid.Column="4" />
+
+            <Label Content="PriceMax:" Grid.Row="2" Grid.Column="1" />
+            <xctk:DecimalUpDown x:Name="PriceMax" Grid.Row="2" Grid.Column="2" Value="100" />
+            <Label Content="To:" Grid.Column="3" Grid.Row="2" />
+            <DatePicker x:Name="DateTo" SelectedDate="2020-05-05" Grid.Column="4" Grid.Row="2" />
+        </Grid>
+        <DataGrid x:Name="Preparat" RowEditEnding="Preparat_RowEditEnding"  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding prep_name}" Header="Name" Width="*" EditingElementStyle="{DynamicResource PreparatSelect}" />
+                <DataGridTextColumn Binding="{Binding price}" Header="Price"/>
+                <DataGridTextColumn Binding="{Binding date_realize}" Header="Realize date"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</shitproject:CustomGridView>
